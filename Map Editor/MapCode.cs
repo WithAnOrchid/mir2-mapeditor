@@ -51,6 +51,8 @@ namespace Map_Editor
         public CellInfo[,] MapCells;
         private string FileName;
         private byte[] Bytes;
+
+        public string MapType { get; set; } = "默认12字节格式";
         
         public MapReader(string FileName)
         {
@@ -80,6 +82,7 @@ namespace Map_Editor
             //c# custom map format
             if ((Bytes[2] == 0x43) && (Bytes[3] == 0x23))
             {
+                MapType = "Type 100: C# 自定义";
                 LoadMapType100();
                 return;
             }
@@ -87,24 +90,28 @@ namespace Map_Editor
             //wemade mir3 maps have no title they just start with blank bytes
             if (Bytes[0] == 0)
             {
+                MapType = "Type 5: WeMade 传奇3";
                 LoadMapType5();
                 return;
             }
             //shanda mir3 maps start with title: (C) SNDA, MIR3.
             if ((Bytes[0] == 0x0F) && (Bytes[5] == 0x53) && (Bytes[14] == 0x33))
             {
+                MapType = "Type 6: 盛大传奇3";
                 LoadMapType6();
                 return;
             }
             //wemades antihack map (laby maps) title start with: Mir2 AntiHack
             if ((Bytes[0] == 0x15) && (Bytes[4] == 0x32) && (Bytes[6] == 0x41) && (Bytes[19] == 0x31))
             {
+                MapType = "Type 4: WeMade 传奇2 防破解";
                 LoadMapType4();
                 return;
             }
             //wemades 2010 map format i guess title starts with: Map 2010 Ver 1.0
             if ((Bytes[0] == 0x10) && (Bytes[2] == 0x61) && (Bytes[7] == 0x31) && (Bytes[14] == 0x31))
             {
+                MapType = "Type 1: WeMade 2010";
                 LoadMapType1();
                 return;
             }
@@ -115,11 +122,13 @@ namespace Map_Editor
                 int H = Bytes[2] + (Bytes[3] << 8);
                 if (Bytes.Length > (52 + (W*H*14)))
                 {
+                    MapType = "Type 3: 盛大 2012";
                     LoadMapType3();
                     return;
                 }
                 else
                 {
+                    MapType = "Type 2: 盛大 2012";
                     LoadMapType2();
                     return;
                 }
@@ -128,6 +137,7 @@ namespace Map_Editor
             //3/4 heroes map format (myth/lifcos i guess)
             if ((Bytes[0] == 0x0D) && (Bytes[1] == 0x4C) && (Bytes[7] == 0x20) && (Bytes[11] == 0x6D))
             {
+                MapType = "Type 7: Hero";
                 LoadMapType7();
                 return;
             }
@@ -412,6 +422,7 @@ namespace Map_Editor
                         offset += 3;//mir3 maps dont have doors so dont bother reading the info
                         MapCells[x, y].Light = (byte)(Bytes[offset] & 0x0F);
                         MapCells[x, y].Light *= 4;//far wants all light on mir3 maps to be maxed :p
+
                         offset += 2;
                         if ((flag & 0x01) != 1) MapCells[x, y].BackImage |= 0x20000000;
                         if ((flag & 0x02) != 2) MapCells[x, y].FrontImage = (short)((UInt16)MapCells[x, y].FrontImage | 0x8000);

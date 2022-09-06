@@ -169,7 +169,7 @@ namespace Map_Editor
                 AnimationCount++;
             }
 
-            Text = string.Format("FPS: {0}---Map:W {1}:H {2} ----W,S,A,D,--Suprcode--v.1.1--<{3}>", FPS, mapWidth, mapHeight,
+            Text = string.Format("FPS: {0}---Map:W {1}:H {2} ----W,S,A,D,--{3}--<{4}>", FPS, mapWidth, mapHeight, map?.MapType,
                 mapFileName);
         }
 
@@ -2927,6 +2927,7 @@ namespace Map_Editor
                 {
                     MapPanel.Controls.Add(cellInfoControl);
                 }
+               // Debug.WriteLine($"BackIndex={M2CellInfo[cellX, cellY].BackIndex}, ");
             }
         }
 
@@ -4475,6 +4476,7 @@ namespace Map_Editor
             {
                 var filePath = openFileDialog.FileName;
                 map = new MapReader(filePath);
+
                 M2CellInfo = map.MapCells;
                 mapPoint = new Point(0, 0);
                 SetMapSize(map.Width, map.Height);
