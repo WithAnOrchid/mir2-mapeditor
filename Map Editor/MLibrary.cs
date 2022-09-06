@@ -37,7 +37,7 @@ namespace Map_Editor
             MapLibs[2] = new MLibrary(@".\Data\Map\WemadeMir2\Objects");
             ListItems[2] = new ListItem("Objects", 2);
 
-            for (int i = 2; i < 27; i++)
+            for (int i = 2; i < 99; i++)
             {
                 if (File.Exists(@".\Data\Map\WemadeMir2\Objects" + i + ".lib"))
                 {
@@ -49,7 +49,7 @@ namespace Map_Editor
             //shanda mir2 (allowed from 100-199)
             MapLibs[100] = new MLibrary(@".\Data\Map\ShandaMir2\Tiles");
             ListItems[100] = new ListItem("Tiles", 100);
-            for (int i = 1; i < 10; i++)
+            for (int i = 1; i < 99; i++)
             {
                 if (File.Exists(@".\Data\Map\ShandaMir2\Tiles" + (i + 1) + ".lib"))
                 {
